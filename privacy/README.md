@@ -10,7 +10,7 @@ Esta pasta contém a **Política de Privacidade** do app, usada como URL obrigat
 4. Em **Branch**, selecione `main` (ou `master`) e a pasta **/privacy**.
 5. Salve. Em alguns minutos a página ficará em:
    ```text
-   https://SEU_USUARIO.github.io/chat-bot-easy-four/
+   https://decibelzin.github.io/chat-bot-easy-four/
    ```
 6. Use essa URL no painel da Meta em **Configurações do app** → **URL da Política de Privacidade**.
 

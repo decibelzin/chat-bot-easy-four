@@ -2,9 +2,7 @@
 
 > Bot que responde às mensagens diretas (DMs) do Instagram via **Meta Messenger Platform** — webhook em Node.js + TypeScript, pronto para desenvolvimento e deploy.
 
-[![CI](https://github.com/SEU_USUARIO/chat-bot-easy-four/actions/workflows/ci.yml/badge.svg)](https://github.com/SEU_USUARIO/chat-bot-easy-four/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Node](https://img.shields.io/badge/node-%3E%3D18-green)](package.json)
-
-*Substitua `SEU_USUARIO` pelo seu usuário do GitHub nas badges e no `package.json`.*
+[![CI](https://github.com/decibelzin/chat-bot-easy-four/actions/workflows/ci.yml/badge.svg)](https://github.com/decibelzin/chat-bot-easy-four/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Node](https://img.shields.io/badge/node-%3E%3D18-green)](package.json)
 
 ---
 
@@ -75,7 +73,7 @@ chat-bot-easy-four/
 ## Instalação rápida
 
 ```bash
-git clone https://github.com/SEU_USUARIO/chat-bot-easy-four.git
+git clone https://github.com/decibelzin/chat-bot-easy-four.git
 cd chat-bot-easy-four
 npm install
 cp .env.example .env
@@ -173,7 +171,7 @@ Depois, envie uma DM para a conta do Instagram conectada ao app; o bot deve resp
 ### Publicar no GitHub
 
 1. Crie um repositório no GitHub (ex.: `chat-bot-easy-four`).
-2. Atualize a URL em `package.json` (campo `repository.url`) e nas badges do README: substitua `SEU_USUARIO` pelo seu usuário.
+2. A URL do repositório está em `package.json` e nas badges do README.
 3. Nunca commite o `.env` — ele já está no `.gitignore`. Em servidores, use variáveis de ambiente ou secrets.
 4. Para **Política de Privacidade** no Meta, ative GitHub Pages na pasta `privacy/` (veja [Política de Privacidade](#política-de-privacidade-meta--publicar-app)).
 
@@ -213,7 +211,7 @@ A pasta **`privacy/`** contém a Política de Privacidade em `privacy/index.md`.
 
 1. Suba o repositório no GitHub (com a pasta `privacy/`).
 2. Ative **GitHub Pages**: Settings → Pages → Source: branch `main`, pasta **/privacy**.
-3. A URL será: `https://SEU_USUARIO.github.io/chat-bot-easy-four/`
+3. A URL será: `https://decibelzin.github.io/chat-bot-easy-four/`
 4. No painel da Meta: **Configurações do app** → **URL da Política de Privacidade** → cole essa URL.
 
 Detalhes em `privacy/README.md`.
