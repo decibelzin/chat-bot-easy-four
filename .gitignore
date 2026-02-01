@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+*.tsbuildinfo
+
+# Ambiente e segredos (nunca commitar)
+.env
+.env.local
+.env.*.local
+
+# Logs e cache
+*.log
+npm-debug.log*
+.npm
+.cache
+
+# Sistema e IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cobertura e testes (se adicionar depois)
+coverage/
+.nyc_output/
