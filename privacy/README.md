@@ -2,15 +2,14 @@
 
 Esta pasta contém a **Política de Privacidade** do app, usada como URL obrigatória no painel da Meta (Publicar app).
 
-## Usar no GitHub Pages
+## Publicar no GitHub Pages
 
-1. **Subir o repositório** no GitHub (incluindo a pasta `privacy/`).
-2. No repositório: **Settings** → **Pages**.
-3. Em **Build and deployment**, em **Source** escolha **GitHub Actions** (o workflow publica a pasta `privacy/`).
-4. Salve. Após o próximo push em `main`, a página ficará em:
+1. Suba o repositório no GitHub (incluindo a pasta `privacy/`).
+2. **Settings** → **Pages** → **Build and deployment** → **Source**: **GitHub Actions** (o workflow `.github/workflows/pages.yml` publica esta pasta).
+3. Após o push em `main`, a URL será:
    ```text
    https://decibelzin.github.io/chat-bot-easy-four/
    ```
-6. Use essa URL no painel da Meta em **Configurações do app** → **URL da Política de Privacidade**.
+4. No painel da Meta: **Configurações do app** → **URL da Política de Privacidade** → cole essa URL.
 
-O conteúdo da política está em **index.md** nesta pasta.
+O conteúdo da política está em **index.md** (e em **index.html** para a página publicada).

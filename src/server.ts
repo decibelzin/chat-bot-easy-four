@@ -16,15 +16,22 @@ import type {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
-const APP_SECRET = process.env.APP_SECRET;
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN?.trim();
+const APP_SECRET = process.env.APP_SECRET?.trim();
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN?.trim();
+const PAGE_ID = process.env.PAGE_ID?.trim(); // Opcional: ID da Página (ex.: 108920837206718). Se não definir, usa /me/messages.
+// Se a Meta só te deu o token do "Gerar token" (não EAAL), use INSTAGRAM_ACCOUNT_ID da conta (ex.: 17841401836261698)
+const INSTAGRAM_ACCOUNT_ID = process.env.INSTAGRAM_ACCOUNT_ID?.trim();
 const SKIP_WEBHOOK_SIGNATURE = process.env.SKIP_WEBHOOK_SIGNATURE === '1' || process.env.SKIP_WEBHOOK_SIGNATURE === 'true';
 
 if (!VERIFY_TOKEN || !PAGE_ACCESS_TOKEN) {
   console.error('Configure .env com VERIFY_TOKEN e PAGE_ACCESS_TOKEN.');
   process.exit(1);
 }
+
+// Diagnóstico: IGAA = token do "Gerar token" (graph.instagram.com); EAA = Page token (graph.facebook.com)
+const tokenStart = PAGE_ACCESS_TOKEN!.slice(0, 4);
+console.log('[Token] Comprimento:', PAGE_ACCESS_TOKEN!.length, '| Início:', tokenStart + '...', tokenStart === 'IGAA' ? '(API Instagram)' : '(API Page)');
 
 let rawBodyBuffer: Buffer | undefined;
 
@@ -74,6 +81,7 @@ app.post('/webhook', (req: Request, res: Response) => {
   res.status(200).send('EVENT_RECEIVED');
 
   const body = req.body as WebhookBody;
+  console.log('[Webhook] object:', body.object, 'entry:', body.entry?.length ?? 0);
 
   if (body.object === 'instagram') {
     for (const entry of body.entry as InstagramWebhookEntry[]) {
@@ -89,6 +97,10 @@ app.post('/webhook', (req: Request, res: Response) => {
         handlePageEvent(event);
       }
     }
+  }
+
+  if (body.object !== 'instagram' && body.object !== 'page') {
+    console.log('[Webhook] Objeto ignorado (esperado: instagram ou page). Payload:', JSON.stringify(body).slice(0, 300));
   }
 });
 
@@ -145,10 +157,23 @@ async function sendInstagramMessage(
   recipientId: string,
   text: string
 ): Promise<SendMessageResponse> {
-  const url = `https://graph.facebook.com/v21.0/me/messages?access_token=${encodeURIComponent(PAGE_ACCESS_TOKEN!)}`;
+  const token = PAGE_ACCESS_TOKEN!;
+  // Token do "Gerar token" (IGAA...) = API do Instagram com login (graph.instagram.com, sem Página ligada)
+  const isInstagramToken = token.startsWith('IGAA');
+  const baseUrl = isInstagramToken
+    ? 'https://graph.instagram.com/v21.0'
+    : 'https://graph.facebook.com/v21.0';
+  const pathId = isInstagramToken
+    ? (INSTAGRAM_ACCOUNT_ID || 'me')
+    : (INSTAGRAM_ACCOUNT_ID || PAGE_ID || 'me');
+  const url = isInstagramToken
+    ? `${baseUrl}/${pathId}/messages`
+    : `${baseUrl}/${pathId}/messages?access_token=${encodeURIComponent(token)}`;
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (isInstagramToken) headers['Authorization'] = `Bearer ${token}`;
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({
       recipient: { id: recipientId },
       message: { text },
