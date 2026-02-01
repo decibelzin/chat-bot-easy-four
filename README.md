@@ -210,7 +210,7 @@ Para rodar o app em background (ex. com PM2) e o ngrok em outro processo:
 A pasta **`privacy/`** contém a Política de Privacidade em `privacy/index.md`. Para usar como URL no painel da Meta:
 
 1. Suba o repositório no GitHub (com a pasta `privacy/`).
-2. Ative **GitHub Pages**: Settings → Pages → Source: branch `main`, pasta **/privacy**.
+2. Ative **GitHub Pages**: Settings → Pages → em **Build and deployment**, em **Source** escolha **GitHub Actions** (o workflow `.github/workflows/pages.yml` publica a pasta `privacy/`).
 3. A URL será: `https://decibelzin.github.io/chat-bot-easy-four/`
 4. No painel da Meta: **Configurações do app** → **URL da Política de Privacidade** → cole essa URL.
 

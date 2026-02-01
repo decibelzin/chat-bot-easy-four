@@ -6,9 +6,8 @@ Esta pasta contém a **Política de Privacidade** do app, usada como URL obrigat
 
 1. **Subir o repositório** no GitHub (incluindo a pasta `privacy/`).
 2. No repositório: **Settings** → **Pages**.
-3. Em **Source**, escolha **Deploy from a branch**.
-4. Em **Branch**, selecione `main` (ou `master`) e a pasta **/privacy**.
-5. Salve. Em alguns minutos a página ficará em:
+3. Em **Build and deployment**, em **Source** escolha **GitHub Actions** (o workflow publica a pasta `privacy/`).
+4. Salve. Após o próximo push em `main`, a página ficará em:
    ```text
    https://decibelzin.github.io/chat-bot-easy-four/
    ```
