@@ -2,7 +2,7 @@
   "name": "chat-bot-easy-four",
   "version": "1.0.0",
   "description": "Chatbot para Instagram DMs via Meta Messenger Platform",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,9 +17,10 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "ts-node src/server.ts",
-    "tunnel": "concurrently \"npm run dev\" \"ngrok http 3000\""
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "tunnel": "node -r dotenv/config scripts/tunnel.js",
+    "setup-ice-breakers": "ts-node -r dotenv/config src/scripts/set-ice-breakers.ts"
   },
   "engines": {
     "node": ">=18"
@@ -31,7 +32,6 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.0",
-    "concurrently": "^8.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

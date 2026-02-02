@@ -10,12 +10,17 @@ export interface WebhookRecipient {
   id: string;
 }
 
+export interface WebhookQuickReply {
+  payload: string;
+}
+
 export interface WebhookMessage {
   mid: string;
   text?: string;
   is_echo?: boolean;
   is_deleted?: boolean;
   is_unsupported?: boolean;
+  quick_reply?: WebhookQuickReply;
   attachments?: Array<{ type: string; payload?: { url?: string } }>;
 }
 

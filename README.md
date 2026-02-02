@@ -40,16 +40,19 @@ Guia passo a passo: [TESTE-BOT.md](TESTE-BOT.md).
 ```text
 chat-bot-easy-four/
 ├── src/
-│   ├── server.ts           # Servidor e rotas do webhook
+│   ├── index.ts            # Entrada: bootstrap do servidor
+│   ├── app.ts              # Express: middleware e montagem de rotas
+│   ├── banner.ts           # Banner no start
+│   ├── config/             # Configuração e validação de .env
+│   ├── middleware/         # Body bruto e validação de assinatura
+│   ├── routes/             # Rotas (webhook, health)
+│   ├── handlers/           # Processamento de eventos do webhook
+│   ├── services/           # Cliente da API Meta (messenger)
+│   ├── bot/                # Lógica de resposta (getReply)
 │   └── types/
 │       └── webhook.ts      # Tipos da API do Meta
 ├── privacy/                # Política de Privacidade (GitHub Pages)
-│   ├── index.md
-│   ├── index.html
-│   └── README.md
-├── scripts/
-│   ├── tunnel.sh / .ps1 / .bat   # App + ngrok
-│   └── start.sh
+├── scripts/                # tunnel.js (app + ngrok), start.sh, etc.
 ├── .env.example
 ├── package.json
 └── tsconfig.json
@@ -94,9 +97,14 @@ Em outro terminal: `ngrok http 3000` (ou use `npm run tunnel`). Configure a URL 
    Casos de uso → Gerenciar mensagens e conteúdo no Instagram → Personalizar → Configurar webhooks:
    - URL de callback: `https://SUA_URL_NGROK/webhook`
    - Verify token: mesmo valor de `VERIFY_TOKEN`
-   - Assine **messages** (e outros se quiser).
+   - Assine **messages** e **messaging_postbacks** (postbacks é necessário para Ice Breakers / sugestões no entry).
 
-3. **Rodar**  
+3. **Sugestões no entry (Ice Breakers)**  
+   Para as sugestões aparecerem ao abrir o PV (antes de qualquer mensagem), rode uma vez:  
+   `npm run setup-ice-breakers`  
+   As perguntas vêm de `src/bot/replies.ts` (`getIceBreakerItems`). O webhook precisa estar inscrito em **messaging_postbacks** (item 2).
+
+4. **Rodar**  
    - Desenvolvimento: `npm run dev` (ngrok em outro terminal) ou `npm run tunnel`.  
    - Produção: `npm run build && npm start`.
 
@@ -107,7 +115,7 @@ Detalhes e troubleshooting: [TESTE-BOT.md](TESTE-BOT.md).
 - **GitHub**: envie o repositório; não commite `.env`. Em VPS/servidor use variáveis de ambiente.
 - **VPS**: clone o projeto, configure `.env`, use `npm run build && npm start` e exponha a porta (ou use ngrok/PM2 conforme [TESTE-BOT.md](TESTE-BOT.md)).
 
-Scripts com ngrok: `npm run tunnel` (Windows) ou `./scripts/tunnel.sh` (Linux).
+**Túnel (app + ngrok):** `npm run tunnel` — inicia o ngrok, obtém a URL pela API local e exibe **Webhook URL** no terminal antes de subir o app. Use essa URL no painel do Meta (callback + `/webhook`). No Linux também pode usar `./scripts/tunnel.sh`.
 
 ## Política de Privacidade
 
@@ -115,6 +123,6 @@ A pasta `privacy/` contém a política para o painel da Meta. Para publicar no G
 
 ## Personalizar respostas
 
-A lógica de resposta está em `getReply()` em `src/server.ts`. Você pode alterar as frases, integrar IA (OpenAI, etc.) ou usar banco de dados.
+A lógica de resposta está em `src/bot/replies.ts` (`getReply()`). As sugestões no **entry** (Ice Breakers) e nas **mensagens** (Quick Replies) vêm do mesmo arquivo: edite `SUGGESTED_QUESTIONS` (e opcionalmente `entryQuestion` para o texto no entry). Depois de alterar as sugestões no entry, rode de novo `npm run setup-ice-breakers`.
 
 **Endpoints:** `GET /webhook` (verificação) · `POST /webhook` (eventos e envio de mensagens).
