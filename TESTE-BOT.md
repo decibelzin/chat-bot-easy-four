@@ -47,9 +47,9 @@ O Meta só chama URLs públicas HTTPS.
 npm run tunnel
 ```
 
-**Dois terminais:** Terminal 1: `npm run dev` · Terminal 2: `ngrok http 3000`.
+O script inicia o ngrok, obtém a URL pela API local e **exibe a Webhook URL** no terminal (ex.: `https://abc123.ngrok-free.app/webhook`) antes de subir o app. Use essa URL no painel do Meta.
 
-Anote a URL HTTPS (ex.: `https://abc123.ngrok-free.app`).
+**Dois terminais:** Terminal 1: `npm run dev` · Terminal 2: `ngrok http 3000`. Anote a URL HTTPS do ngrok e adicione `/webhook`.
 
 ---
 
